@@ -4,7 +4,7 @@
 
 import { NativeModules, Platform } from "react-native";
 
-const ReactNativeBlobUtil: ReactNativeBlobUtilNative = NativeModules.ReactNativeBlobUtil;
+const RNFetchBlob: RNFetchBlobNative = NativeModules.RNFetchBlob;
 
 /**
  * Displays an options menu using UIDocumentInteractionController.presentOptionsMenu
@@ -14,8 +14,8 @@ const ReactNativeBlobUtil: ReactNativeBlobUtilNative = NativeModules.ReactNative
  */
 function presentOptionsMenu(path: string, scheme: string) {
   if (Platform.OS === "ios")
-    return ReactNativeBlobUtil.presentOptionsMenu("file://" + path, scheme);
-  else return Promise.reject("ReactNativeBlobUtil.openDocument only supports IOS.");
+    return RNFetchBlob.presentOptionsMenu("file://" + path, scheme);
+  else return Promise.reject("RNFetchBlob.openDocument only supports IOS.");
 }
 
 /**
@@ -26,8 +26,8 @@ function presentOptionsMenu(path: string, scheme: string) {
  */
 function presentOpenInMenu(path: string, scheme: string) {
   if (Platform.OS === "ios")
-    return ReactNativeBlobUtil.presentOpenInMenu("file://" + path, scheme);
-  else return Promise.reject("ReactNativeBlobUtil.openDocument only supports IOS.");
+    return RNFetchBlob.presentOpenInMenu("file://" + path, scheme);
+  else return Promise.reject("RNFetchBlob.openDocument only supports IOS.");
 }
 
 /**
@@ -38,8 +38,8 @@ function presentOpenInMenu(path: string, scheme: string) {
  */
 function presentPreview(path: string, scheme: string) {
   if (Platform.OS === "ios")
-    return ReactNativeBlobUtil.presentPreview("file://" + path, scheme);
-  else return Promise.reject("ReactNativeBlobUtil.previewDocument only supports IOS.");
+    return RNFetchBlob.presentPreview("file://" + path, scheme);
+  else return Promise.reject("RNFetchBlob.previewDocument only supports IOS.");
 }
 
 /**
@@ -49,7 +49,7 @@ function presentPreview(path: string, scheme: string) {
  * @return {Promise}
  */
 function excludeFromBackupKey(path: string) {
-  return ReactNativeBlobUtil.excludeFromBackupKey("file://" + path);
+  return RNFetchBlob.excludeFromBackupKey("file://" + path);
 }
 
 export default {

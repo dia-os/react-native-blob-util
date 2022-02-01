@@ -3,18 +3,18 @@
 // Definitions by: MNB <https://github.com/MNBuyskih>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-export const ReactNativeBlobUtil: ReactNativeBlobUtilStatic;
-export type ReactNativeBlobUtil = ReactNativeBlobUtilStatic;
-export default ReactNativeBlobUtil;
+export const RNFetchBlob: RNFetchBlobStatic;
+export type RNFetchBlob = RNFetchBlobStatic;
+export default RNFetchBlob;
 
-interface ReactNativeBlobUtilStatic {
+interface RNFetchBlobStatic {
     fetch(method: Methods, url: string, headers?: { [key: string]: string }, body?: any
         | null): StatefulPromise<FetchBlobResponse>;
     base64: { encode(input: string): string; decode(input: string): string };
     android: AndroidApi;
     ios: IOSApi;
-    config(options: ReactNativeBlobUtilConfig): ReactNativeBlobUtilStatic;
-    session(name: string): ReactNativeBlobUtilSession;
+    config(options: RNFetchBlobConfig): RNFetchBlobStatic;
+    session(name: string): RNFetchBlobSession;
     fs: FS;
     wrap(path: string): string;
     net: Net;
@@ -33,17 +33,17 @@ export interface Polyfill {
     Fetch: PolyfillFetch;
 }
 
-export declare class PolyfillFetch extends ReactNativeBlobUtilFetchPolyfill {
-    constructor(config: ReactNativeBlobUtilConfig);
+export declare class PolyfillFetch extends RNFetchBlobFetchPolyfill {
+    constructor(config: RNFetchBlobConfig);
 }
 
-export declare class ReactNativeBlobUtilFetchPolyfill {
-    constructor(config: ReactNativeBlobUtilConfig);
+export declare class RNFetchBlobFetchPolyfill {
+    constructor(config: RNFetchBlobConfig);
 
-    build(): (url: string, options: ReactNativeBlobUtilConfig) => StatefulPromise<ReactNativeBlobUtilFetchRepsonse>;
+    build(): (url: string, options: RNFetchBlobConfig) => StatefulPromise<RNFetchBlobFetchRepsonse>;
 }
 
-export interface ReactNativeBlobUtilFetchRepsonse {
+export interface RNFetchBlobFetchRepsonse {
     arrayBuffer(): Promise<any[]>;
     blob(): Promise<PolyfillBlob>;
     json(): Promise<any>;
@@ -54,13 +54,13 @@ export interface ReactNativeBlobUtilFetchRepsonse {
     ok: boolean;
     resp: FetchBlobResponse;
     rnfbResp: FetchBlobResponse;
-    rnfbRespInfo: ReactNativeBlobUtilResponseInfo;
+    rnfbRespInfo: RNFetchBlobResponseInfo;
     status: number;
     type: string;
 }
 
 /**
- * ReactNativeBlobUtil response object class.
+ * RNFetchBlob response object class.
  */
 export interface FetchBlobResponse {
     taskId: string;
@@ -72,7 +72,7 @@ export interface FetchBlobResponse {
     type: "base64" | "path" | "utf8";
     data: any;
     /**
-     * Convert result to javascript ReactNativeBlobUtil object.
+     * Convert result to javascript RNFetchBlob object.
      * @return Return a promise resolves Blob object.
      */
     blob(contentType: string, sliceSize: number): Promise<PolyfillBlob>;
@@ -95,9 +95,9 @@ export interface FetchBlobResponse {
      * Remove cahced file
      */
     flush(): void;
-    respInfo: ReactNativeBlobUtilResponseInfo;
-    info(): ReactNativeBlobUtilResponseInfo;
-    session(name: string): ReactNativeBlobUtilSession | null;
+    respInfo: RNFetchBlobResponseInfo;
+    info(): RNFetchBlobResponseInfo;
+    session(name: string): RNFetchBlobSession | null;
     /**
      * Read file content with given encoding, if the response does not contains
      * a file path, show warning message
@@ -108,7 +108,7 @@ export interface FetchBlobResponse {
      * Start read stream from cached file
      * @param  encode Encode type, should be one of `base64`, `ascrii`, `utf8`.
      */
-    readStream(encode: Encoding): ReactNativeBlobUtilStream | null;
+    readStream(encode: Encoding): RNFetchBlobStream | null;
 }
 
 export interface PolyfillFileReader extends EventTarget {
@@ -147,7 +147,7 @@ export interface PolyfillProgressEvent extends EventTarget {
 
 export declare class PolyfillBlob implements EventTarget {
     /**
-     * ReactNativeBlobUtil Blob polyfill, create a Blob directly from file path, BASE64
+     * RNFetchBlob Blob polyfill, create a Blob directly from file path, BASE64
      * encoded data, and string. The conversion is done implicitly according to
      * given `mime`. However, the blob creation is asynchronously, to register
      * event `onCreated` is need to ensure the Blob is creadted.
@@ -170,9 +170,9 @@ export declare class PolyfillBlob implements EventTarget {
 
     /**
      * Get file reference of the Blob object.
-     * @return Blob file reference which can be consumed by ReactNativeBlobUtil fs
+     * @return Blob file reference which can be consumed by RNFetchBlob fs
      */
-    getReactNativeBlobUtilRef(): string;
+    getRNFetchBlobRef(): string;
 
     /**
      * Create a Blob object which is sliced from current object
@@ -227,7 +227,7 @@ export interface PolyfillXMLHttpRequest extends PolyfillXMLHttpRequestEventTarge
 
     /**
      * Invoke this function to send HTTP request, and set body.
-     * @param body Body in ReactNativeBlobUtil flavor
+     * @param body Body in RNfetchblob flavor
      */
     send(body: any): void;
 
@@ -296,7 +296,7 @@ export interface Net {
 
 type HashAlgorithm = "md5" | "sha1" | "sha224" | "sha256" | "sha384" | "sha512";
 export interface FS {
-    ReactNativeBlobUtilSession: ReactNativeBlobUtilSession;
+    RNFetchBlobSession: RNFetchBlobSession;
 
     /**
      * Remove file at path.
@@ -314,7 +314,7 @@ export interface FS {
      * Get a file cache session
      * @param  name Stream ID
      */
-    session(name: string): ReactNativeBlobUtilSession;
+    session(name: string): RNFetchBlobSession;
 
     ls(path: string): Promise<string[]>;
 
@@ -331,9 +331,9 @@ export interface FS {
      * @param  path   The file path.
      * @param  encoding Data encoding, should be one of `base64`, `utf8`, `ascii`
      * @param  bufferSize Size of stream buffer.
-     * @return ReactNativeBlobUtilStream stream instance.
+     * @return RNFetchBlobStream stream instance.
      */
-    readStream(path: string, encoding: Encoding, bufferSize?: number, tick?: number): Promise<ReactNativeBlobUtilReadStream>;
+    readStream(path: string, encoding: Encoding, bufferSize?: number, tick?: number): Promise<RNFetchBlobReadStream>;
 
     mv(path: string, dest: string): Promise<boolean>;
 
@@ -346,7 +346,7 @@ export interface FS {
      * @param  append  A flag represent if data append to existing ones.
      * @return A promise resolves a `WriteStream` object.
      */
-    writeStream(path: string, encoding: Encoding, append?: boolean): Promise<ReactNativeBlobUtilWriteStream>;
+    writeStream(path: string, encoding: Encoding, append?: boolean): Promise<RNFetchBlobWriteStream>;
 
     /**
      * Write data to file.
@@ -378,9 +378,9 @@ export interface FS {
      * Show statistic data of a path.
      * @param  path Target path
      */
-    stat(path: string): Promise<ReactNativeBlobUtilStat>;
+    stat(path: string): Promise<RNFetchBlobStat>;
 
-    lstat(path: string): Promise<ReactNativeBlobUtilStat[]>;
+    lstat(path: string): Promise<RNFetchBlobStat[]>;
 
     /**
      * Android only method, request media scanner to scan the file.
@@ -392,22 +392,8 @@ export interface FS {
 
     slice(src: string, dest: string, start: number, end: number): Promise<void>;
     asset(path: string): string;
-    df(): Promise<RNFetchBlobDf>;
+    df(): Promise<{ free: number, total: number }>;
 }
-
-export interface RNFetchBlobDfIOS {
-    free?: number;
-    total?: number;
-}
-
-export interface RNFetchBlobDfAndroid {
-    external_free?: string;
-    external_total?: string;
-    internal_free?: string;
-    internal_total?: string;
-}
-
-export type RNFetchBlobDf = RNFetchBlobDfIOS & RNFetchBlobDfAndroid;
 
 export interface Dirs {
     DocumentDir: string;
@@ -422,7 +408,7 @@ export interface Dirs {
     MainBundleDir: string;
 }
 
-export interface ReactNativeBlobUtilWriteStream {
+export interface RNFetchBlobWriteStream {
     id: string;
     encoding: string;
     append: boolean;
@@ -431,7 +417,7 @@ export interface ReactNativeBlobUtilWriteStream {
     close(): void;
 }
 
-export interface ReactNativeBlobUtilReadStream {
+export interface RNFetchBlobReadStream {
     path: string;
     encoding: Encoding;
     bufferSize?: number;
@@ -523,7 +509,7 @@ export interface AndroidApi {
      * @param mime Basically system will open an app according to this MIME type.
      * @param chooserTitle title for chooser, if not set the chooser won't be displayed (see [Android docs](https://developer.android.com/reference/android/content/Intent.html#createChooser(android.content.Intent,%20java.lang.CharSequence)))
      */
-    actionViewIntent(path: string, mime: string, chooserTitle?: string): Promise<boolean | null>;
+    actionViewIntent(path: string, mime: string, chooserTitle?: string): Promise<any>;
 
     /**
      * 
@@ -585,12 +571,12 @@ export interface StatefulPromise<T> extends Promise<T> {
     expire(callback: () => void): StatefulPromise<void>;
 }
 
-export declare class ReactNativeBlobUtilSession {
+export declare class RNFetchBlobSession {
     constructor(name: string, list: string[]);
 
-    add(path: string): ReactNativeBlobUtilSession;
+    add(path: string): RNFetchBlobSession;
 
-    remove(path: string): ReactNativeBlobUtilSession;
+    remove(path: string): RNFetchBlobSession;
 
     dispose(): Promise<void>;
 
@@ -608,12 +594,7 @@ export declare class ReactNativeBlobUtilSession {
 /**
  * A set of configurations that will be injected into a fetch method, with the following properties.
  */
-export interface ReactNativeBlobUtilConfig {
-
-    Progress?: { count?: number, interval?: number };
-    UploadProgress?: { count?: number, interval?: number };
-
-
+export interface RNFetchBlobConfig {
     /**
      * When this property is true, the downloaded data will overwrite the existing file. (true by default)
      */
@@ -647,7 +628,7 @@ export interface ReactNativeBlobUtilConfig {
 
     /**
      * Set this property to true will makes response data of the fetch stored in a temp file, by default the temp
-     * file will stored in App's own root folder with file name template ReactNativeBlobUtil_tmp${timestamp}.
+     * file will stored in App's own root folder with file name template RNFetchBlob_tmp${timestamp}.
      */
     fileCache?: boolean;
 
@@ -704,7 +685,7 @@ export interface AddAndroidDownloads {
     notification?: boolean;
 }
 
-export interface ReactNativeBlobUtilResponseInfo {
+export interface RNFetchBlobResponseInfo {
     taskId: string;
     state: string;
     headers: any;
@@ -715,16 +696,16 @@ export interface ReactNativeBlobUtilResponseInfo {
     timeout: boolean;
 }
 
-export interface ReactNativeBlobUtilStream {
+export interface RNFetchBlobStream {
     onData(): void;
     onError(): void;
     onEnd(): void;
 }
 
-export declare class ReactNativeBlobUtilFile {
+export declare class RNFetchBlobFile {
 }
 
-export declare class ReactNativeBlobUtilStat {
+export declare class RNFetchBlobStat {
     lastModified: number;
     size: number;
     type: "directory" | "file";

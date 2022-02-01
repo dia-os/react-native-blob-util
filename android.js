@@ -2,51 +2,51 @@
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
-import { NativeModules, Platform } from 'react-native';
+import { NativeModules, Platform } from 'react-native'
 
-const ReactNativeBlobUtil = NativeModules.ReactNativeBlobUtil;
+const RNFetchBlob = NativeModules.RNFetchBlob
 
 /**
  * Send an intent to open the file.
  * @param  {string} path Path of the file to be open.
  * @param  {string} mime MIME type string
- * @param  {string} chooserTitle for chooser, if not set the chooser won't be displayed (see https://developer.android.com/reference/android/content/Intent.html#createChooser(android.content.Intent,%20java.lang.CharSequence))
+ * @param  {string} title for chooser, if not set the chooser won't be displayed (see https://developer.android.com/reference/android/content/Intent.html#createChooser(android.content.Intent,%20java.lang.CharSequence))
  * @return {Promise}
  */
 function actionViewIntent(path, mime, chooserTitle) {
   if(typeof chooserTitle === 'undefined') chooserTitle = null;
   if(Platform.OS === 'android')
-    return ReactNativeBlobUtil.actionViewIntent(path, mime, chooserTitle);
+    return RNFetchBlob.actionViewIntent(path, mime, chooserTitle)
   else
-    return Promise.reject('ReactNativeBlobUtil.android.actionViewIntent only supports Android.');
+    return Promise.reject('RNFetchBlob.android.actionViewIntent only supports Android.')
 }
 
 function getContentIntent(mime) {
   if(Platform.OS === 'android')
-    return ReactNativeBlobUtil.getContentIntent(mime);
+    return RNFetchBlob.getContentIntent(mime)
   else
-    return Promise.reject('ReactNativeBlobUtil.android.getContentIntent only supports Android.');
+    return Promise.reject('RNFetchBlob.android.getContentIntent only supports Android.')
 }
 
 function addCompleteDownload(config) {
   if(Platform.OS === 'android')
-    return ReactNativeBlobUtil.addCompleteDownload(config);
+    return RNFetchBlob.addCompleteDownload(config)
   else
-    return Promise.reject('ReactNativeBlobUtil.android.addCompleteDownload only supports Android.');
+    return Promise.reject('RNFetchBlob.android.addCompleteDownload only supports Android.')
 }
 
 function getSDCardDir() {
   if(Platform.OS === 'android')
-    return ReactNativeBlobUtil.getSDCardDir();
+    return RNFetchBlob.getSDCardDir()
   else
-    return Promise.reject('ReactNativeBlobUtil.android.getSDCardDir only supports Android.');
+    return Promise.reject('RNFetchBlob.android.getSDCardDir only supports Android.')
 }
 
 function getSDCardApplicationDir() {
   if(Platform.OS === 'android')
-    return ReactNativeBlobUtil.getSDCardApplicationDir();
+    return RNFetchBlob.getSDCardApplicationDir()
   else
-    return Promise.reject('ReactNativeBlobUtil.android.getSDCardApplicationDir only supports Android.');
+    return Promise.reject('RNFetchBlob.android.getSDCardApplicationDir only supports Android.')
 }
 
 
@@ -56,4 +56,4 @@ export default {
   addCompleteDownload,
   getSDCardDir,
   getSDCardApplicationDir,
-};
+}

@@ -1,7 +1,5 @@
 
-export type ReactNativeBlobUtilConfig = {
-  Progress: any,
-  UploadProgress: any,
+type RNFetchBlobConfig = {
   fileCache : bool,
   path : string,
   appendExt : string,
@@ -13,7 +11,7 @@ export type ReactNativeBlobUtilConfig = {
   wifiOnly : bool
 };
 
-export type ReactNativeBlobUtilNative = {
+type RNFetchBlobNative = {
   // API for fetch octet-stream data
   fetchBlob : (
     options:fetchConfig,
@@ -47,7 +45,7 @@ export type ReactNativeBlobUtilNative = {
   ls : (path:string, callback: (err:any) => void) => void,
 };
 
-export type ReactNativeBlobUtilResponseInfo = {
+type RNFetchBlobResponseInfo = {
   taskId : string,
   state : number,
   headers : any,
@@ -56,7 +54,7 @@ export type ReactNativeBlobUtilResponseInfo = {
   rnfbEncode : 'path' | 'base64' | 'ascii' | 'utf8'
 }
 
-export type ReactNativeBlobUtilStream = {
+type RNFetchBlobStream = {
   onData : () => void,
   onError : () => void,
   onEnd : () => void,

@@ -10,25 +10,25 @@ declare class AndroidApi {
 
 declare class FetchBlobResponse {
   data: string;
-  respInfo: ReactNativeBlobUtilResponseInfo;
+  respInfo: RNFetchBlobResponseInfo;
   taskId: string;
   type: "utf8" | "base64" | "path";
   array(): Promise<number[]>;
   base64(): string | Promise<string>;
   blob(): Promise<Blob>;
   flush(): Promise<void>;
-  info(): ReactNativeBlobUtilResponseInfo;
+  info(): RNFetchBlobResponseInfo;
   // $FlowExpectedError Not possible to specify in strict mode.
   json(): any;
   path(): string;
   readFile(encoding: Encoding): ?Promise<number[] | string>;
-  readStream(encoding: Encoding): ?Promise<ReactNativeBlobUtilReadStream>;
-  session(name: string): ?ReactNativeBlobUtilSession;
+  readStream(encoding: Encoding): ?Promise<RNFetchBlobReadStream>;
+  session(name: string): ?RNFetchBlobSession;
   text(): string | Promise<string>;
 }
 
 declare class FsApi {
-  ReactNativeBlobUtilSession: ReactNativeBlobUtilSession;
+  RNFetchBlobSession: RNFetchBlobSession;
   dirs: Dirs;
   appendFile(path: string, data: string | number[], encoding?: Encoding | "uri"): Promise<number>;
   asset(path: string): string;
@@ -39,19 +39,19 @@ declare class FsApi {
   hash(path: string, algorithm: HashAlgorithm): Promise<string>;
   isDir(path: string): Promise<boolean>;
   ls(path: string): Promise<string[]>;
-  lstat(path: string): Promise<ReactNativeBlobUtilStat[]>;
+  lstat(path: string): Promise<RNFetchBlobStat[]>;
   mkdir(path: string): Promise<boolean>;
   mv(path: string, dest: string): Promise<boolean>;
   pathForAppGroup(groupName: string): Promise<string>;
   readFile(path: string, encoding: Encoding, bufferSize?: number): Promise<number[] | string>;
-  readStream(path: string, encoding: Encoding, bufferSize?: number, tick?: number): Promise<ReactNativeBlobUtilReadStream>;
+  readStream(path: string, encoding: Encoding, bufferSize?: number, tick?: number): Promise<RNFetchBlobReadStream>;
   scanFile(pairs: {mime: string, path: string}[]): Promise<void>;
-  session(name: string): ReactNativeBlobUtilSession;
+  session(name: string): RNFetchBlobSession;
   slice(src: string, dest: string, start: number, end: number): Promise<string>;
-  stat(path: string): Promise<ReactNativeBlobUtilStat>;
+  stat(path: string): Promise<RNFetchBlobStat>;
   unlink(path: string): Promise<void>;
   writeFile(path: string, data: string | number[], encoding?: Encoding | "uri"): Promise<number>;
-  writeStream(path: string, encoding: Encoding, append?: boolean): Promise<ReactNativeBlobUtilWriteStream>;
+  writeStream(path: string, encoding: Encoding, append?: boolean): Promise<RNFetchBlobWriteStream>;
 }
 
 declare class IosApi {
@@ -60,7 +60,7 @@ declare class IosApi {
   previewDocument(path: string, scheme?: string): Promise<void>;
 }
 
-declare class ReactNativeBlobUtilReadStream {
+declare class RNFetchBlobReadStream {
   bufferSize?: number;
   closed: boolean;
   encoding: Encoding;
@@ -72,20 +72,20 @@ declare class ReactNativeBlobUtilReadStream {
   open(): void;
 }
 
-declare class ReactNativeBlobUtilSession {
-  static getSession(name: string): ReactNativeBlobUtilSession;
+declare class RNFetchBlobSession {
+  static getSession(name: string): RNFetchBlobSession;
   static removeSession(name: string): void;
-  static setSession(name: string, val: ReactNativeBlobUtilSession): void;
+  static setSession(name: string, val: RNFetchBlobSession): void;
 
   name: string;
-  add(path: string): ReactNativeBlobUtilSession;
-  constructor(name: string, list: string[]): ReactNativeBlobUtilSession;
+  add(path: string): RNFetchBlobSession;
+  constructor(name: string, list: string[]): RNFetchBlobSession;
   dispose(): Promise<void>;
   list(): string[];
-  remove(path: string): ReactNativeBlobUtilSession;
+  remove(path: string): RNFetchBlobSession;
 }
 
-declare class ReactNativeBlobUtilWriteStream {
+declare class RNFetchBlobWriteStream {
   append: boolean;
   encoding: string;
   id: string;
@@ -93,14 +93,14 @@ declare class ReactNativeBlobUtilWriteStream {
   write(data: string): Promise<void>;
 }
 
-declare class ReactNativeBlobUtil {
+declare class RNFetchBlob {
   android: AndroidApi;
   base64: {+decode: (input: string) => string, +encode: (input: string) => string};
   fs: FsApi;
   ios: IosApi;
-  config(options: ReactNativeBlobUtilConfig): {fetch: (method: Methods, url: string, headers?: {[key: string]: string}, body?: string | FormField[]) => StatefulPromise<FetchBlobResponse>};
+  config(options: RNFetchBlobConfig): {fetch: (method: Methods, url: string, headers?: {[key: string]: string}, body?: string | FormField[]) => StatefulPromise<FetchBlobResponse>};
   fetch(method: Methods, url: string, headers?: {[key: string]: string}, body?: string | FormField[]): StatefulPromise<FetchBlobResponse>;
-  session(name: string): ReactNativeBlobUtilSession;
+  session(name: string): RNFetchBlobSession;
   wrap(path: string): string;
 }
 
@@ -108,7 +108,7 @@ declare class StatefulPromise<T> extends Promise<T> {
   cancel(callback?: (error: ?string, taskId: ?string) => void): void;
   expire(callback: () => void): StatefulPromise<void>;
   progress(config: {count?: number, interval?: number} | ProgressCallback, callback?: ProgressCallback): StatefulPromise<T>;
-  stateChange(callback: (state: ReactNativeBlobUtilResponseInfo) => void): StatefulPromise<T>;
+  stateChange(callback: (state: RNFetchBlobResponseInfo) => void): StatefulPromise<T>;
   uploadProgress(config: {count?: number, interval?: number} | UploadProgressCallback, callback?: UploadProgressCallback): StatefulPromise<T>;
 }
 
@@ -153,9 +153,7 @@ export type HashAlgorithm = "md5" | "sha1" | "sha224" | "sha256" | "sha384" | "s
 export type IosFsStat = {free: number, total: number};
 export type Methods = "POST" | "GET" | "DELETE" | "PUT" | "post" | "get" | "delete" | "put";
 export type ProgressCallback = (received: number, total: number) => void;
-export type ReactNativeBlobUtilConfig = {
-  Progress?: { count?: number, interval?: number },
-  UploadProgress?: { count?: number, interval?: number },
+export type RNFetchBlobConfig = {
   IOSBackgroundTask?: boolean,
   addAndroidDownloads?: AddAndroidDownloads,
   appendExt?: string,
@@ -169,7 +167,7 @@ export type ReactNativeBlobUtilConfig = {
   wifiOnly?: boolean,
   followRedirect?: boolean
 };
-export type ReactNativeBlobUtilResponseInfo = {
+export type RNFetchBlobResponseInfo = {
   headers: {[fieldName: string]: string},
   redirects: string[],
   respType: "text" | "blob" | "" | "json",
@@ -179,7 +177,7 @@ export type ReactNativeBlobUtilResponseInfo = {
   taskId: string,
   timeout: boolean
 };
-export type ReactNativeBlobUtilStat = {
+export type RNFetchBlobStat = {
   filename: string,
   lastModified: number,
   path: string,
@@ -188,4 +186,4 @@ export type ReactNativeBlobUtilStat = {
 };
 export type UploadProgressCallback = (sent: number, total: number) => void;
 
-declare export default ReactNativeBlobUtil;
+declare export default RNFetchBlob;

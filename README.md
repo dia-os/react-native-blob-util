@@ -1,14 +1,14 @@
-# react-native-blob-util
-[![release](https://img.shields.io/github/release/RonRadtke/react-native-blob-util.svg?style=flat-square)](https://github.com/RonRadtke/react-native-blob-util/releases) [![npm](https://img.shields.io/npm/v/react-native-blob-util.svg?style=flat-square)](https://www.npmjs.com/package/react-native-blob-util) ![](https://img.shields.io/badge/PR-Welcome-brightgreen.svg?style=flat-square) [![](https://img.shields.io/badge/Wiki-Public-brightgreen.svg?style=flat-square)](https://github.com/joltup/react-native-blob-util/wiki) [![npm](https://img.shields.io/npm/l/react-native-blob-util.svg?maxAge=2592000&style=flat-square)]()
+# rn-fetch-blob
+[![release](https://img.shields.io/github/release/joltup/rn-fetch-blob.svg?style=flat-square)](https://github.com/joltup/rn-fetch-blob/releases) [![npm](https://img.shields.io/npm/v/rn-fetch-blob.svg?style=flat-square)](https://www.npmjs.com/package/rn-fetch-blob) ![](https://img.shields.io/badge/PR-Welcome-brightgreen.svg?style=flat-square) [![](https://img.shields.io/badge/Wiki-Public-brightgreen.svg?style=flat-square)](https://github.com/joltup/rn-fetch-blob/wiki) [![npm](https://img.shields.io/npm/l/rn-fetch-blob.svg?maxAge=2592000&style=flat-square)]()
 
 A project committed to making file access and data transfer easier and more efficient for React Native developers.
 # I forked this project to continue working on it.
-This project is a fork of https://www.npmjs.com/package/rn-fetch-blob which on the other hand is a fork of https://github.com/wkh237/react-native-fetch-blob.
-Both the original repository and its first fork are not maintained anymore.
+I will soon publish it on npm. So far Android 10 support is added and some other fixes.
+Also changes are made for feedback (rejected promise) if there is no app to open the given file.
 
-The project will be continued in this repository. React-Native-Blob-Util is fully compatible with RN-Fetch-Blob and React-Native-Fetch-Blob. If you want to support the project feel free to contact me or create a pull request with your feature.
 # Version Compatibility Warning
-react-native-blob-util version 0.10.16 and up is only compatible with react native 0.60 and up.
+
+rn-fetch-blob version 0.10.16 is only compatible with react native 0.60 and up. It should have been a major version bump, we apologize for the mistake. If you are not yet upgraded to react native 0.60 or above, you should remain on rn-fetch-blob version 0.10.15
 
 ## Features
 - Transfer data directly from/to storage without BASE64 bridging
@@ -18,16 +18,7 @@ react-native-blob-util version 0.10.16 and up is only compatible with react nati
 - Blob, File, XMLHttpRequest polyfills that make browser-based library available in RN (experimental)
 - JSON stream supported base on [Oboe.js](https://github.com/jimhigson/oboe.js/) @jimhigson
 
-## Android 10 & 11
-Android 10 introduced scoped storage for apps. Apps no longer can create own directories directly on the external storage or access files outside of the apps own directories.
-This currently limits the library to create files in its own directory. This directory is not accessible by other apps.
-If you want to open the files with another app (e.g. images) you can save it to the downloadDir and then open the file with actionViewIntent.
-
-This is leading to the problem that all files are deleted when the app is being removed.
-The best and recommanded option to address this issue is, moving the files to a media collection (e.g. galery or downloads). The possibility to do this will be implemented in a future release.
-
-For more information see: https://developer.android.com/training/data-storage
-## TOC (visit [Wiki](https://github.com/joltup/react-native-blob-util/wiki) to get the complete documentation)
+## TOC (visit [Wiki](https://github.com/joltup/rn-fetch-blob/wiki) to get the complete documentation)
 * [About](#user-content-about)
 * [Installation](#user-content-installation)
 * [HTTP Data Transfer](#user-content-http-data-transfer)
@@ -47,7 +38,7 @@ For more information see: https://developer.android.com/training/data-storage
  * [Manage cached files](#user-content-cache-file-management)
 * [Web API Polyfills](#user-content-web-api-polyfills)
 * [Performance Tips](#user-content-performance-tips)
-* [API References](https://github.com/joltup/react-native-blob-util/wiki/Fetch-API)
+* [API References](https://github.com/joltup/rn-fetch-blob/wiki/Fetch-API)
 * [Caveats](#user-content-caveats)
 * [Development](#user-content-development)
 
@@ -65,38 +56,33 @@ In `0.8.0` we introduced experimental Web API polyfills that make it possible to
 Install package from npm
 
 ```sh
-npm install --save react-native-blob-util
+npm install --save rn-fetch-blob
 ```
 
 Or if using CocoaPods, add the pod to your `Podfile`
 
 ```
-pod 'react-native-blob-util',
-    :path => '../node_modules/react-native-blob-util'
+pod 'rn-fetch-blob',
+    :path => '../node_modules/rn-fetch-blob'
 ```
 
 After `0.10.3` you can install this package directly from Github
 
 ```sh
 # replace <branch_name> with any one of the branches
-npm install --save github:RonRadtke/react-native-blob-util#<branch_name>
+npm install --save github:joltup/rn-fetch-blob#<branch_name>
 ```
-**Okhttp**
-
-For using the library okhttp3 is required. It's in general included in react-native.
-The library uses the okhttp version shipped with react-native or used by your app.
-For very old devices android devices okhttp 3.12 can be used.
 
 **Manually Link Native Modules**
 
-If automatically linking doesn't work for you, see instructions on [manually linking](https://github.com/joltup/react-native-blob-util/wiki/Manually-Link-Package#index).
+If automatically linking doesn't work for you, see instructions on [manually linking](https://github.com/joltup/rn-fetch-blob/wiki/Manually-Link-Package#index).
 
 **Automatically Link Native Modules**
 
 For 0.29.2+ projects, simply link native packages via the following command (note: rnpm has been merged into react-native)
 
 ```
-react-native link react-native-blob-util
+react-native link rn-fetch-blob
 ```
 
 As for projects < 0.29 you need `rnpm` to link native packages
@@ -108,7 +94,7 @@ rnpm link
 Optionally, use the following command to add Android permissions to `AndroidManifest.xml` automatically
 
 ```sh
-RNFB_ANDROID_PERMISSIONS=true react-native react-native-blob-util
+RNFB_ANDROID_PERMISSIONS=true react-native link rn-fetch-blob
 ```
 
 pre 0.29 projects
@@ -117,7 +103,7 @@ pre 0.29 projects
 RNFB_ANDROID_PERMISSIONS=true rnpm link
 ```
 
-The link script might not take effect if you have non-default project structure, please visit [the wiki](https://github.com/joltup/react-native-blob-util/wiki/Manually-Link-Package) to link the package manually.
+The link script might not take effect if you have non-default project structure, please visit [the wiki](https://github.com/joltup/rn-fetch-blob/wiki/Manually-Link-Package) to link the package manually.
 
 **Grant Permission to External storage for Android 5.0 or lower**
 
@@ -127,7 +113,7 @@ If you're going to access external storage (say, SD card storage) for `Android 5
 
 ```diff
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ReactNativeBlobUtiltest"
+    package="com.rnfetchblobtest"
     android:versionCode="1"
     android:versionName="1.0">
 
@@ -169,15 +155,15 @@ ES6
 The module uses ES6 style export statement, simply use `import` to load the module.
 
 ```js
-import ReactNativeBlobUtil from 'react-native-blob-util'
+import RNFetchBlob from 'rn-fetch-blob'
 ```
 
 ES5
 
-If you're using ES5 require statement to load the module, please add `default`. See [here](https://github.com/joltup/react-native-blob-util/wiki/Trouble-Shooting#ReactNativeBlobUtilfetch-is-not-a-function) for more detail.
+If you're using ES5 require statement to load the module, please add `default`. See [here](https://github.com/joltup/rn-fetch-blob/wiki/Trouble-Shooting#rnfetchblobfetch-is-not-a-function) for more detail.
 
 ```
-var ReactNativeBlobUtil = require('react-native-blob-util').default
+var RNFetchBlob = require('rn-fetch-blob').default
 ```
 
 ## HTTP Data Transfer
@@ -185,7 +171,7 @@ var ReactNativeBlobUtil = require('react-native-blob-util').default
 
 ### Regular Request
 
-After `0.8.0` react-native-blob-util automatically decides how to send the body by checking its type and `Content-Type` in the header. The rule is described in the following diagram
+After `0.8.0` rn-fetch-blob automatically decides how to send the body by checking its type and `Content-Type` in the header. The rule is described in the following diagram
 
 <img src="img/RNFB-Flow-hd.png" style="width : 90%" />
 
@@ -194,7 +180,7 @@ To sum up:
 - To send a form data, the `Content-Type` header does not matter. When the body is an `Array` we will set proper content type for you.
 - To send binary data, you have two choices, use BASE64 encoded string or path points to a file contains the body.
  - If the `Content-Type` containing substring`;BASE64` or `application/octet` the given body will be considered as a BASE64 encoded data which will be decoded to binary data as the request body.
- - Otherwise, if a string starts with `ReactNativeBlobUtil-file://` (which can simply be done by `ReactNativeBlobUtil.wrap(PATH_TO_THE_FILE)`), it will try to find the data from the URI string after `ReactNativeBlobUtil-file://` and use it as the request body.
+ - Otherwise, if a string starts with `RNFetchBlob-file://` (which can simply be done by `RNFetchBlob.wrap(PATH_TO_THE_FILE)`), it will try to find the data from the URI string after `RNFetchBlob-file://` and use it as the request body.
 - To send the body as-is, simply use a `Content-Type` header not containing `;BASE64` or `application/octet`.
 
 > It is Worth to mentioning that the HTTP request uses cache by default, if you're going to disable it simply add a Cache-Control header `'Cache-Control' : 'no-store'`
@@ -208,7 +194,7 @@ Most simple way is download to memory and stored as BASE64 encoded string, this 
 ```js
 
 // send http request in a new thread (using native code)
-ReactNativeBlobUtil.fetch('GET', 'http://www.example.com/images/img1.png', {
+RNFetchBlob.fetch('GET', 'http://www.example.com/images/img1.png', {
     Authorization : 'Bearer access-token...',
     // more headers  ..
   })
@@ -238,7 +224,7 @@ If the response data is large, that would be a bad idea to convert it into BASE6
 **These files won't be removed automatically, please refer to [Cache File Management](#user-content-cache-file-management)**
 
 ```js
-ReactNativeBlobUtil
+RNFetchBlob
   .config({
     // add this option that makes response data to be stored as a file,
     // this is much more performant.
@@ -258,7 +244,7 @@ ReactNativeBlobUtil
 Sometimes you might need a file extension for some reason. For example, when using file path as the source of `Image` component, the path should end with something like .png or .jpg, you can do this by add `appendExt` option to `config`.
 
 ```js
-ReactNativeBlobUtil
+RNFetchBlob
   .config({
     fileCache : true,
     // by adding this option, the temp files will have a file extension
@@ -278,11 +264,11 @@ ReactNativeBlobUtil
 
 **Use Specific File Path**
 
-If you prefer a particular file path rather than randomly generated one, you can use `path` option. We've added [several  constants](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API#dirs) in v0.5.0 which represents commonly used directories.
+If you prefer a particular file path rather than randomly generated one, you can use `path` option. We've added [several  constants](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API#dirs) in v0.5.0 which represents commonly used directories.
 
 ```js
-let dirs = ReactNativeBlobUtil.fs.dirs
-ReactNativeBlobUtil
+let dirs = RNFetchBlob.fs.dirs
+RNFetchBlob
 .config({
   // response data will be saved to this path if it has access right.
   path : dirs.DocumentDir + '/path-to-file.anything'
@@ -300,11 +286,11 @@ ReactNativeBlobUtil
 
 ####  Upload example : Dropbox [files-upload](https://www.dropbox.com/developers/documentation/http/documentation#files-upload) API
 
-`react-native-blob-util` will convert the base64 string in `body` to binary format using native API, this process is done in a separated thread so that it won't block your GUI.
+`rn-fetch-blob` will convert the base64 string in `body` to binary format using native API, this process is done in a separated thread so that it won't block your GUI.
 
 ```js
 
-ReactNativeBlobUtil.fetch('POST', 'https://content.dropboxapi.com/2/files/upload', {
+RNFetchBlob.fetch('POST', 'https://content.dropboxapi.com/2/files/upload', {
     Authorization : "Bearer access-token...",
     'Dropbox-API-Arg': JSON.stringify({
       path : '/img-from-react-native.png',
@@ -330,7 +316,7 @@ ReactNativeBlobUtil.fetch('POST', 'https://content.dropboxapi.com/2/files/upload
 If you're going to use a `file` as request body, just wrap the path with `wrap` API.
 
 ```js
-ReactNativeBlobUtil.fetch('POST', 'https://content.dropboxapi.com/2/files/upload', {
+RNFetchBlob.fetch('POST', 'https://content.dropboxapi.com/2/files/upload', {
     // dropbox upload headers
     Authorization : "Bearer access-token...",
     'Dropbox-API-Arg': JSON.stringify({
@@ -340,9 +326,9 @@ ReactNativeBlobUtil.fetch('POST', 'https://content.dropboxapi.com/2/files/upload
       mute : false
     }),
     'Content-Type' : 'application/octet-stream',
-    // Change BASE64 encoded data to a file path with prefix `ReactNativeBlobUtil-file://`.
-    // Or simply wrap the file path with ReactNativeBlobUtil.wrap().
-  }, ReactNativeBlobUtil.wrap(PATH_TO_THE_FILE))
+    // Change BASE64 encoded data to a file path with prefix `RNFetchBlob-file://`.
+    // Or simply wrap the file path with RNFetchBlob.wrap().
+  }, RNFetchBlob.wrap(PATH_TO_THE_FILE))
   .then((res) => {
     console.log(res.text())
   })
@@ -359,7 +345,7 @@ Elements have property `filename` will be transformed into binary format, otherw
 
 ```js
 
-  ReactNativeBlobUtil.fetch('POST', 'http://www.example.com/upload-form', {
+  RNFetchBlob.fetch('POST', 'http://www.example.com/upload-form', {
     Authorization : "Bearer access-token",
     otherHeader : "foo",
     'Content-Type' : 'multipart/form-data',
@@ -369,7 +355,7 @@ Elements have property `filename` will be transformed into binary format, otherw
     // custom content type
     { name : 'avatar-png', filename : 'avatar-png.png', type:'image/png', data: binaryDataInBase64},
     // part file from storage
-    { name : 'avatar-foo', filename : 'avatar-foo.png', type:'image/foo', data: ReactNativeBlobUtil.wrap(path_to_a_file)},
+    { name : 'avatar-foo', filename : 'avatar-foo.png', type:'image/foo', data: RNFetchBlob.wrap(path_to_a_file)},
     // elements without property `filename` will be sent as plain text
     { name : 'name', data : 'user'},
     { name : 'info', data : JSON.stringify({
@@ -383,11 +369,11 @@ Elements have property `filename` will be transformed into binary format, otherw
   })
 ```
 
-What if you want to append a file to form data? Just like [upload a file from storage](#user-content-upload-a-file-from-storage) example, wrap `data` by `wrap` API (this feature is only available for `version >= v0.5.0`). On version >= `0.6.2`, it is possible to set custom MIME type when appending a file to form data. But keep in mind when the file is large it's likely to crash your app. Please consider use other strategy (see [#94](https://github.com/joltup/react-native-blob-util/issues/94)).
+What if you want to append a file to form data? Just like [upload a file from storage](#user-content-upload-a-file-from-storage) example, wrap `data` by `wrap` API (this feature is only available for `version >= v0.5.0`). On version >= `0.6.2`, it is possible to set custom MIME type when appending a file to form data. But keep in mind when the file is large it's likely to crash your app. Please consider use other strategy (see [#94](https://github.com/joltup/rn-fetch-blob/issues/94)).
 
 ```js
 
-  ReactNativeBlobUtil.fetch('POST', 'http://www.example.com/upload-form', {
+  RNFetchBlob.fetch('POST', 'http://www.example.com/upload-form', {
     Authorization : "Bearer access-token",
     otherHeader : "foo",
     // this is required, otherwise it won't be process as a multipart/form-data request
@@ -397,9 +383,9 @@ What if you want to append a file to form data? Just like [upload a file from st
     {
       name : 'avatar',
       filename : 'avatar.png',
-      // Change BASE64 encoded data to a file path with prefix `ReactNativeBlobUtil-file://`.
-      // Or simply wrap the file path with ReactNativeBlobUtil.wrap().
-      data: ReactNativeBlobUtil.wrap(PATH_TO_THE_FILE)
+      // Change BASE64 encoded data to a file path with prefix `RNFetchBlob-file://`.
+      // Or simply wrap the file path with RNFetchBlob.wrap().
+      data: RNFetchBlob.wrap(PATH_TO_THE_FILE)
     },
     {
       name : 'ringtone',
@@ -407,7 +393,7 @@ What if you want to append a file to form data? Just like [upload a file from st
       // use custom MIME type
       type : 'application/mp3',
       // upload a file from asset is also possible in version >= 0.6.2
-      data : ReactNativeBlobUtil.wrap(ReactNativeBlobUtil.fs.asset('default-ringtone.mp3'))
+      data : RNFetchBlob.wrap(RNFetchBlob.fs.asset('default-ringtone.mp3'))
     }
     // elements without property `filename` will be sent as plain text
     { name : 'name', data : 'user'},
@@ -427,7 +413,7 @@ What if you want to append a file to form data? Just like [upload a file from st
 In `version >= 0.4.2` it is possible to know the upload/download progress. After `0.7.0` IOS and Android upload progress are also supported.
 
 ```js
-  ReactNativeBlobUtil.fetch('POST', 'http://www.example.com/upload', {
+  RNFetchBlob.fetch('POST', 'http://www.example.com/upload', {
       //... some headers,
       'Content-Type' : 'octet-stream'
     }, base64DataString)
@@ -451,7 +437,7 @@ In `0.9.6`, you can specify an object as the first argument which contains `coun
 
 
 ```js
-  ReactNativeBlobUtil.fetch('POST', 'http://www.example.com/upload', {
+  RNFetchBlob.fetch('POST', 'http://www.example.com/upload', {
       //... some headers,
       'Content-Type' : 'octet-stream'
     }, base64DataString)
@@ -476,7 +462,7 @@ In `0.9.6`, you can specify an object as the first argument which contains `coun
 After `0.7.0` it is possible to cancel an HTTP request. Upon cancellation, it throws a promise rejection, be sure to catch it.
 
 ```js
-let task = ReactNativeBlobUtil.fetch('GET', 'http://example.com/file/1')
+let task = RNFetchBlob.fetch('GET', 'http://example.com/file/1')
 
 task.then(() => { ... })
     // handle request cancelled rejection
@@ -492,9 +478,9 @@ task.cancel((err) => { ... })
 
 0.9.0
 
-If you have existing code that uses `whatwg-fetch`(the official **fetch**), it's not necessary to replace them with `ReactNativeBlobUtil.fetch`, you can simply use our **Fetch Replacement**. The difference between Official them is official fetch uses [whatwg-fetch](https://github.com/github/fetch) which wraps XMLHttpRequest polyfill under the hood. It's a great library for web developers, but does not play very well with RN. Our implementation is simply a wrapper of our `fetch` and `fs` APIs, so you can access all the features we provided.
+If you have existing code that uses `whatwg-fetch`(the official **fetch**), it's not necessary to replace them with `RNFetchblob.fetch`, you can simply use our **Fetch Replacement**. The difference between Official them is official fetch uses [whatwg-fetch](https://github.com/github/fetch) which wraps XMLHttpRequest polyfill under the hood. It's a great library for web developers, but does not play very well with RN. Our implementation is simply a wrapper of our `fetch` and `fs` APIs, so you can access all the features we provided.
 
-[See document and examples](https://github.com/joltup/react-native-blob-util/wiki/Fetch-API#fetch-replacement)
+[See document and examples](https://github.com/joltup/rn-fetch-blob/wiki/Fetch-API#fetch-replacement)
 
 ### Android Media Scanner, and Download Manager Support
 
@@ -506,13 +492,13 @@ Media scanner scans the file and categorizes by given MIME type, if MIME type no
 
 ```js
 
-ReactNativeBlobUtil
+RNFetchBlob
     .config({
         // DCIMDir is in external storage
         path : dirs.DCIMDir + '/music.mp3'
     })
     .fetch('GET', 'http://example.com/music.mp3')
-    .then((res) => ReactNativeBlobUtil.fs.scanFile([ { path : res.path(), mime : 'audio/mpeg' } ]))
+    .then((res) => RNFetchBlob.fs.scanFile([ { path : res.path(), mime : 'audio/mpeg' } ]))
     .then(() => {
         // scan file success
     })
@@ -532,7 +518,7 @@ When using DownloadManager, `fileCache` and `path` properties in `config` will n
 When download complete, DownloadManager will generate a file path so that you can deal with it.
 
 ```js
-ReactNativeBlobUtil
+RNFetchBlob
     .config({
         addAndroidDownloads : {
             useDownloadManager : true, // <-- this is the only thing required
@@ -562,7 +548,7 @@ Your app might not have right to remove/change the file created by Download Mana
 If you need to display a notification upon the file is downloaded to storage (as the above) or make the downloaded file visible in "Downloads" app. You have to add some options to `config`.
 
 ```js
-ReactNativeBlobUtil.config({
+RNFetchBlob.config({
   fileCache : true,
   // android only options, these options be a no-op on IOS
   addAndroidDownloads : {
@@ -589,9 +575,9 @@ Download and install an APK programmatically
 
 ```js
 
-const android = ReactNativeBlobUtil.android
+const android = RNFetchBlob.android
 
-ReactNativeBlobUtil.config({
+RNFetchBlob.config({
     addAndroidDownloads : {
       useDownloadManager : true,
       title : 'awesome.apk',
@@ -619,31 +605,31 @@ Or show an image in image viewer
 
 File access APIs were made when developing `v0.5.0`, which helping us write tests, and was not planned to be a part of this module. However, we realized that it's hard to find a great solution to manage cached files, everyone who uses this module may need these APIs for their cases.
 
-Before start using file APIs, we recommend read [Differences between File Source](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API#differences-between-file-source) first.
+Before start using file APIs, we recommend read [Differences between File Source](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API#differences-between-file-source) first.
 
 File Access APIs
-- [asset (0.6.2)](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API#assetfilenamestringstring)
-- [dirs](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API#dirs)
-- [createFile](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API#createfilepath-data-encodingpromise)
-- [writeFile (0.6.0)](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API#writefilepathstring-contentstring--array-encodingstring-appendbooleanpromise)
-- [appendFile (0.6.0) ](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API#appendfilepathstring-contentstring--arraynumber-encodingstring-promisenumber)
-- [readFile (0.6.0)](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API#readfilepath-encodingpromise)
-- [readStream](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API#readstreampath-encoding-buffersize-interval-promisernfbreadstream)
-- [hash (0.10.9)](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API#hashpath-algorithm-promise)
-- [writeStream](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API#writestreampathstring-encodingstringpromise)
-- [hash](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API#hashpath-algorithmpromise)
-- [unlink](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API#unlinkpathstringpromise)
-- [mkdir](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API#mkdirpathstringpromise)
-- [ls](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API#lspathstringpromise)
-- [mv](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API#mvfromstring-tostringpromise)
-- [cp](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API#cpsrcstring-deststringpromise)
-- [exists](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API#existspathstringpromise)
-- [isDir](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API#isdirpathstringpromise)
-- [stat](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API#statpathstringpromise)
-- [lstat](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API#lstatpathstringpromise)
-- [scanFile (Android only)](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API#scanfilepathstringpromise-androi-only)
+- [asset (0.6.2)](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API#assetfilenamestringstring)
+- [dirs](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API#dirs)
+- [createFile](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API#createfilepath-data-encodingpromise)
+- [writeFile (0.6.0)](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API#writefilepathstring-contentstring--array-encodingstring-appendbooleanpromise)
+- [appendFile (0.6.0) ](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API#appendfilepathstring-contentstring--arraynumber-encodingstring-promisenumber)
+- [readFile (0.6.0)](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API#readfilepath-encodingpromise)
+- [readStream](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API#readstreampath-encoding-buffersize-interval-promisernfbreadstream)
+- [hash (0.10.9)](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API#hashpath-algorithm-promise)
+- [writeStream](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API#writestreampathstring-encodingstringpromise)
+- [hash](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API#hashpath-algorithmpromise)
+- [unlink](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API#unlinkpathstringpromise)
+- [mkdir](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API#mkdirpathstringpromise)
+- [ls](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API#lspathstringpromise)
+- [mv](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API#mvfromstring-tostringpromise)
+- [cp](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API#cpsrcstring-deststringpromise)
+- [exists](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API#existspathstringpromise)
+- [isDir](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API#isdirpathstringpromise)
+- [stat](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API#statpathstringpromise)
+- [lstat](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API#lstatpathstringpromise)
+- [scanFile (Android only)](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API#scanfilepathstringpromise-androi-only)
 
-See [File API](https://github.com/joltup/react-native-blob-util/wiki/File-System-Access-API) for more information
+See [File API](https://github.com/joltup/rn-fetch-blob/wiki/File-System-Access-API) for more information
 
 ### File Stream
 
@@ -651,11 +637,11 @@ In `v0.5.0` we've added  `writeStream` and `readStream`, which allows your app r
 
 When calling `readStream` method, you have to `open` the stream, and start to read data. When the file is large, consider using an appropriate `bufferSize` and `interval` to reduce the native event dispatching overhead (see [Performance Tips](#user-content-performance-tips))
 
-> The file stream event has a default throttle(10ms) and buffer size which preventing it cause too much overhead to main thread, you can also [tweak these values](#user-content-performance-tips).
+> The file stream event has a default throttle(10ms) and buffer size which preventing it cause too much overhead to main thread, yo can also [tweak these values](#user-content-performance-tips).
 
 ```js
 let data = ''
-ReactNativeBlobUtil.fs.readStream(
+RNFetchBlob.fs.readStream(
     // file path
     PATH_TO_THE_FILE,
     // encoding, should be one of `base64`, `utf8`, `ascii`
@@ -681,10 +667,10 @@ ReactNativeBlobUtil.fs.readStream(
 
 When using `writeStream`, the stream object becomes writable, and you can then perform operations like `write` and `close`.
 
-Since version 0.10.9 `write()` resolves with the `ReactNativeBlobUtil` instance so you can promise-chain write calls:
+Since version 0.10.9 `write()` resolves with the `RNFetchBlob` instance so you can promise-chain write calls:
 
 ```js
-ReactNativeBlobUtil.fs.writeStream(
+RNFetchBlob.fs.writeStream(
     PATH_TO_FILE,
     // encoding, should be one of `base64`, `utf8`, `ascii`
     'utf8',
@@ -701,7 +687,7 @@ ReactNativeBlobUtil.fs.writeStream(
 or
 
 ```js
-ReactNativeBlobUtil.fs.writeStream(
+RNFetchBlob.fs.writeStream(
     PATH_TO_FILE,
     // encoding, should be one of `base64`, `utf8`, `ascii`
     'utf8',
@@ -721,7 +707,7 @@ ReactNativeBlobUtil.fs.writeStream(
 You should **NOT** do something like this:
 
 ```js
-ReactNativeBlobUtil.fs.writeStream(
+RNFetchBlob.fs.writeStream(
     PATH_TO_FILE,
     // encoding, should be one of `base64`, `utf8`, `ascii`
     'utf8',
@@ -746,8 +732,8 @@ When using `fileCache` or `path` options along with `fetch` API, response data w
 
 ```js
 
-  // remove file using ReactNativeBlobUtilResponse.flush() object method
-  ReactNativeBlobUtil.config({
+  // remove file using RNFetchblobResponse.flush() object method
+  RNFetchblob.config({
       fileCache : true
     })
     .fetch('GET', 'http://example.com/download/file')
@@ -757,7 +743,7 @@ When using `fileCache` or `path` options along with `fetch` API, response data w
     })
 
   // remove file by specifying a path
-  ReactNativeBlobUtil.fs.unlink('some-file-path').then(() => {
+  RNFetchBlob.fs.unlink('some-file-path').then(() => {
     // ...
   })
 
@@ -767,7 +753,7 @@ You can also group requests by using `session` API and use `dispose` to remove t
 
 ```js
 
-  ReactNativeBlobUtil.config({
+  RNFetchblob.config({
     fileCache : true
   })
   .fetch('GET', 'http://example.com/download/file')
@@ -776,7 +762,7 @@ You can also group requests by using `session` API and use `dispose` to remove t
     res.session('foo')
   })
 
-  ReactNativeBlobUtil.config({
+  RNFetchblob.config({
     // you can also set session beforehand
     session : 'foo'
     fileCache : true
@@ -787,13 +773,13 @@ You can also group requests by using `session` API and use `dispose` to remove t
   })
 
   // or put an existing file path to the session
-  ReactNativeBlobUtil.session('foo').add('some-file-path')
+  RNFetchBlob.session('foo').add('some-file-path')
   // remove a file path from the session
-  ReactNativeBlobUtil.session('foo').remove('some-file-path')
+  RNFetchBlob.session('foo').remove('some-file-path')
   // list paths of a session
-  ReactNativeBlobUtil.session('foo').list()
+  RNFetchBlob.session('foo').list()
   // remove all files in a session
-  ReactNativeBlobUtil.session('foo').dispose().then(() => { ... })
+  RNFetchBlob.session('foo').dispose().then(() => { ... })
 
 ```
 
@@ -802,15 +788,15 @@ You can also group requests by using `session` API and use `dispose` to remove t
 After `0.9.4`, the `Chunked` transfer encoding is disabled by default due to some service provider may not support chunked transfer. To enable it, set `Transfer-Encoding` header to `Chunked`.
 
 ```js
-ReactNativeBlobUtil.fetch('POST', 'http://example.com/upload', { 'Transfer-Encoding' : 'Chunked' }, bodyData)
+RNFetchBlob.fetch('POST', 'http://example.com/upload', { 'Transfer-Encoding' : 'Chunked' }, bodyData)
 ```
 
 ### Self-Signed SSL Server
 
-By default, react-native-blob-util does NOT allow connection to unknown certification provider since it's dangerous. To connect a server with self-signed certification, you need to add `trusty` to `config` explicitly. This function is available for version >= `0.5.3`
+By default, rn-fetch-blob does NOT allow connection to unknown certification provider since it's dangerous. To connect a server with self-signed certification, you need to add `trusty` to `config` explicitly. This function is available for version >= `0.5.3`
 
 ```js
-ReactNativeBlobUtil.config({
+RNFetchBlob.config({
   trusty : true
 })
 .fetch('GET', 'https://mysite.com')
@@ -826,7 +812,7 @@ Note: On Android, the `ACCESS_NETWORK_STATE` permission must be set, and this fl
 on API version 21 (Lollipop, Android 5.0) or above. APIs below 21 will ignore this flag.
 
 ```js
-ReactNativeBlobUtil.config({
+RNFetchBlob.config({
   wifiOnly : true
 })
 .fetch('GET', 'https://mysite.com')
@@ -837,7 +823,7 @@ ReactNativeBlobUtil.config({
 
 ## Web API Polyfills
 
-After `0.8.0` we've made some [Web API polyfills](https://github.com/joltup/react-native-blob-util/wiki/Web-API-Polyfills-(experimental)) that makes some browser-based library available in RN.
+After `0.8.0` we've made some [Web API polyfills](https://github.com/joltup/rn-fetch-blob/wiki/Web-API-Polyfills-(experimental)) that makes some browser-based library available in RN.
 
 - Blob
 - XMLHttpRequest (Use our implementation if you're going to use it with Blob)
@@ -873,16 +859,16 @@ If you're going to concatenate files, you don't have to read the data to JS cont
 * This library does not urlencode unicode characters in URL automatically, see [#146](https://github.com/wkh237/react-native-fetch-blob/issues/146).
 * When you create a `Blob` ,  from an existing file, the file **WILL BE REMOVED** if you `close` the blob.
 * If you replaced `window.XMLHttpRequest` for some reason (e.g. make Firebase SDK work), it will also affect how official `fetch` works (basically it should work just fine).
-* When file stream and upload/download progress event slow down your app, consider an upgrade to `0.9.6+`, use [additional arguments](https://github.com/joltup/react-native-blob-util/wiki/Fetch-API#fetchprogressconfig-eventlistenerpromiseReactNativeBlobUtilresponse) to limit its frequency.
+* When file stream and upload/download progress event slow down your app, consider an upgrade to `0.9.6+`, use [additional arguments](https://github.com/joltup/rn-fetch-blob/wiki/Fetch-API#fetchprogressconfig-eventlistenerpromisernfetchblobresponse) to limit its frequency.
 * When passing a file path to the library, remove `file://` prefix.
 
-when you got a problem, have a look at [Trouble Shooting](https://github.com/joltup/react-native-blob-util/wiki/Trouble-Shooting) or [issues labeled Trouble Shooting](https://github.com/joltup/react-native-blob-util/issues?utf8=✓&q=label:%22trouble%20shooting%22%20), there'd be some helpful information.
+when you got a problem, have a look at [Trouble Shooting](https://github.com/joltup/rn-fetch-blob/wiki/Trouble-Shooting) or [issues labeled Trouble Shooting](https://github.com/joltup/rn-fetch-blob/issues?utf8=✓&q=label:%22trouble%20shooting%22%20), there'd be some helpful information.
 
 ## Changes
 
-See [release notes](https://github.com/joltup/react-native-blob-util/releases)
+See [release notes](https://github.com/joltup/rn-fetch-blob/releases)
 
 ### Development
 
-If you're interested in hacking this module, check our [development guide](https://github.com/joltup/react-native-blob-util/wiki/Home), there might be some helpful information.
+If you're interested in hacking this module, check our [development guide](https://github.com/joltup/rn-fetch-blob/wiki/Home), there might be some helpful information.
 Please feel free to make a PR or file an issue.
